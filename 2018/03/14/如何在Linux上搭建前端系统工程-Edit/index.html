@@ -6,14 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2018/3 | Hexo</title>
+  <title>如何在Linux上搭建前端系统工程 Edit | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/2018/03/index.html">
+  <meta name="description" content="目录 文章简介 安装node环境 安装npm环境 安装pm2环境 搭建git server 搭建持续集成环境jenkins 新建前端工程 搭建npm私服 部署脚本 执行脚本 系统环境测试  文章简介 本文介绍了整套前端系统工程的搭建：node、npm、pm2、jenkins的安装过程，如何搭建git server，如何使用淘宝的cnpm搭建自己的私有npm，以及自执行的shell部署脚本和shel">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何在Linux上搭建前端系统工程 Edit">
+<meta property="og:url" content="http://yoursite.com/2018/03/14/如何在Linux上搭建前端系统工程-Edit/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="目录 文章简介 安装node环境 安装npm环境 安装pm2环境 搭建git server 搭建持续集成环境jenkins 新建前端工程 搭建npm私服 部署脚本 执行脚本 系统环境测试  文章简介 本文介绍了整套前端系统工程的搭建：node、npm、pm2、jenkins的安装过程，如何搭建git server，如何使用淘宝的cnpm搭建自己的私有npm，以及自执行的shell部署脚本和shel">
+<meta property="og:image" content="https://raw.githubusercontent.com/baoendemao/Build-FrontEnd-System/master/images/cnpm-web.png">
+<meta property="og:updated_time" content="2018-03-14T14:23:47.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="如何在Linux上搭建前端系统工程 Edit">
+<meta name="twitter:description" content="目录 文章简介 安装node环境 安装npm环境 安装pm2环境 搭建git server 搭建持续集成环境jenkins 新建前端工程 搭建npm私服 部署脚本 执行脚本 系统环境测试  文章简介 本文介绍了整套前端系统工程的搭建：node、npm、pm2、jenkins的安装过程，如何搭建git server，如何使用淘宝的cnpm搭建自己的私有npm，以及自执行的shell部署脚本和shel">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/baoendemao/Build-FrontEnd-System/master/images/cnpm-web.png">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -149,76 +155,368 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-如何在Linux上搭建前端系统工程-Edit" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      如何在Linux上搭建前端系统工程 Edit
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/14/如何在Linux上搭建前端系统工程-Edit/" class="archive-article-date">
+
+        
+        <a href="/2018/03/14/如何在Linux上搭建前端系统工程-Edit/" class="archive-article-date">
   	<time datetime="2018-03-14T14:20:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-14</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/14/如何在Linux上搭建前端系统工程-Edit/">如何在Linux上搭建前端系统工程 Edit</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h4><ul>
+<li>文章简介</li>
+<li>安装node环境</li>
+<li>安装npm环境</li>
+<li>安装pm2环境</li>
+<li>搭建git server</li>
+<li>搭建持续集成环境jenkins</li>
+<li>新建前端工程</li>
+<li>搭建npm私服</li>
+<li>部署脚本</li>
+<li>执行脚本</li>
+<li>系统环境测试</li>
+</ul>
+<h4 id="文章简介"><a href="#文章简介" class="headerlink" title="文章简介"></a>文章简介</h4><ul>
+<li>本文介绍了整套前端系统工程的搭建：node、npm、pm2、jenkins的安装过程，如何搭建git server，如何使用淘宝的cnpm搭建自己的私有npm，<br>以及自执行的shell部署脚本和shell执行脚本。</li>
+<li>这里将jenkins的持续集成过程分成了两个步骤，这两个步骤都是由jenkins项目自动构建、shell部署和执行脚本自动完成的。<ul>
+<li>步骤一(即部署过程)：从git server上clone项目，然后build项目，打包后上传到私有npm </li>
+<li>步骤二(即执行过程)：从私有npm上将项目包install下来到项目工程目录，然后pm2启动node进程。</li>
+</ul>
+</li>
+</ul>
+<h4 id="安装node环境"><a href="#安装node环境" class="headerlink" title="安装node环境"></a>安装node环境</h4><ul>
+<li>yum install -g nodejs 或者 wget node的压缩包<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ8vb5awc622gw7a274vsbZ ~]# node -v</span><br><span class="line">v6.9.1</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="安装npm环境"><a href="#安装npm环境" class="headerlink" title="安装npm环境"></a>安装npm环境</h4><ul>
+<li>yum install -g npm 或者 wget npm的压缩包<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ8vb5awc622gw7a274vsbZ ~]# npm -v</span><br><span class="line">3.10.8</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="安装pm2环境"><a href="#安装pm2环境" class="headerlink" title="安装pm2环境"></a>安装pm2环境</h4><ul>
+<li>pm2简介<ul>
+<li>pm2是node的进程管理器，使用pm2启动node进程，保持在后台永久运行。</li>
+<li>pm2的优势<ul>
+<li>内建负载均衡</li>
+<li>后台运行</li>
+<li>0秒停机重载</li>
+<li>停止不稳定的进程，避免无限循环</li>
+<li>控制台检测</li>
+<li>提供HTTP API</li>
+<li>远程控制和实时的接口API</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g pm2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试pm2</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ8vb5awc622gw7a274vsbZ wangli-workspace]# cat test.js</span><br><span class="line">var http = require(&apos;http&apos;);</span><br><span class="line">http.createServer(function (req, res) &#123;</span><br><span class="line">    res.writeHead(200, &#123; &apos;Content-Type&apos;: &apos;text/plain&apos; &#125;); res.end(&apos;Hello World\n&apos;); </span><br><span class="line">&#125;).listen(1337, &quot;127.0.0.1&quot;); </span><br><span class="line">console.log(&apos;Server running at http://127.0.0.1:1337/&apos;);</span><br><span class="line"></span><br><span class="line">[root@iZ8vb5awc622gw7a274vsbZ wangli-workspace]# pm2 start test.js --name &apos;testjs&apos;</span><br><span class="line">[PM2] Starting /var/tmp/wangli-workspace/test.js in fork_mode (1 instance)</span><br><span class="line">[PM2] Done.</span><br><span class="line">┌────────┬──────┬────────┬───┬─────┬───────────┐</span><br><span class="line">│ Name   │ mode │ status │ ↺ │ cpu │ memory    │</span><br><span class="line">├────────┼──────┼────────┼───┼─────┼───────────┤</span><br><span class="line">│ testjs │ fork │ online │ 0 │ 42% │ 17.3 MB   │</span><br><span class="line">└────────┴──────┴────────┴───┴─────┴───────────┘</span><br><span class="line"> Use `pm2 show &lt;id|name&gt;` to get more details about an app</span><br><span class="line"> </span><br><span class="line">[root@iZ8vb5awc622gw7a274vsbZ wangli-workspace]# pm2 monit</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="搭建git-server"><a href="#搭建git-server" class="headerlink" title="搭建git server"></a>搭建git server</h4><ul>
+<li><p>新建git用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ8vb5awc622gw7a274vsbZ test.wangli.com]# adduser git</span><br><span class="line"></span><br><span class="line">[root@iZ8vb5awc622gw7a274vsbZ test-project.git]# passwd git</span><br><span class="line"></span><br><span class="line">[root@iZ8vb5awc622gw7a274vsbZ test.wangli.com]# tail -1 /etc/passwd</span><br><span class="line">git:x:500:500::/home/git:/bin/bash</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>初始化git裸仓库</p>
+<ul>
+<li>裸仓库没有工作区，因为服务器上的Git仓库纯粹是为了共享，所以不让用户直接登录到服务器上去改工作区，服务器上的Git仓库通常都以.git结尾<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ8vb5awc622gw7a274vsbZ wangli-workspace]# git clone --bare test-project test-project.git</span><br><span class="line">Initialized empty Git repository in /var/tmp/wangli-workspace/test-project.git/</span><br><span class="line">warning: You appear to have cloned an empty repository.</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>将owner改为git</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ8vb5awc622gw7a274vsbZ wangli-workspace]# chown -R git:git test-project.git/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>不允许git用户登录shell</p>
+<ul>
+<li>出于安全考虑，新创建的git用户是不允许登录shell的，这可以通过编辑/etc/passwd文件完成。找到类似下面的一行：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git:x:500:500::/home/git:/bin/shell 修改成</span><br><span class="line">git:x:500:500::/home/git:/usr/bin/git-shell</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[wangli@iZ8vb5awc622gw7a274vsbZ ~]$ tail -2 /etc/passwd</span><br><span class="line">git:x:500:500::/home/git:/usr/bin/git-shell</span><br><span class="line">wangli:x:501:501::/home/wangli:/bin/bash</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ8vb5awc622gw7a274vsbZ test-project.git]# su - git</span><br><span class="line">fatal: What do you think I am? A shell?</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>在本地clone项目</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wl@wangli: ~/front-end/test $ git clone git@47.92.64.91:/var/tmp/wangli-workspace/test-project.git</span><br><span class="line">wl@wangli: ~/front-end/test $ ls</span><br><span class="line">test-project</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在本地测试git服务器是否可用</p>
+<ul>
+<li>在本地添加文件commit push，裸仓库中看不到提交的文件，原因是在裸仓库的hooks文件夹里需要添加post-receive文件指向创建的工程<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ8vb5awc622gw7a274vsbZ hooks]# chown git:git post-receive</span><br><span class="line"></span><br><span class="line">[root@iZ8vb5awc622gw7a274vsbZ hooks]# chmod +x post-receive</span><br><span class="line"></span><br><span class="line">[root@iZ8vb5awc622gw7a274vsbZ test-project.git]# cat hooks/post-receive</span><br><span class="line">#!/bin/sh</span><br><span class="line">GIT_WORK_TREE=/var/tmp/wangli-workspace/www git checkout -f</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 修改后，本地创建新文件，add commit push后，可以在服务器看到相应文件</span><br><span class="line">[root@iZ8vb5awc622gw7a274vsbZ test-project.git]# ls /var/tmp/wangli-workspace/www/</span><br><span class="line">README  test2.js</span><br></pre></td></tr></table></figure>
+<h4 id="搭建持续集成环境jenkins"><a href="#搭建持续集成环境jenkins" class="headerlink" title="搭建持续集成环境jenkins"></a>搭建持续集成环境jenkins</h4><ul>
+<li>jenkins简介<ul>
+<li>jenkins是一款能提高工作效率的软件，能够帮助我们把软件开发过程形成工作流。</li>
+<li>典型的工作流包括：<ul>
+<li>开发</li>
+<li>提交</li>
+<li>编译</li>
+<li>测试</li>
+<li>发布</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>准备jdk环境</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ8vb5awc622gw7a274vsbZ wangli-workspace]# java -version</span><br><span class="line">java version &quot;1.8.0_121&quot;</span><br><span class="line">Java(TM) SE Runtime Environment (build 1.8.0_121-b13)</span><br><span class="line">Java HotSpot(TM) 64-Bit Server VM (build 25.121-b13, mixed mode)</span><br><span class="line"></span><br><span class="line">[root@iZ8vb5awc622gw7a274vsbZ wangli-workspace]# javac</span><br><span class="line">用法: javac &lt;options&gt; &lt;source files&gt;</span><br><span class="line">其中, 可能的选项包括:</span><br><span class="line">  -g                         生成所有调试信息</span><br><span class="line">  -g:none                    不生成任何调试信息</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>准备tomcat环境</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ8vb5awc622gw7a274vsbZ apache-tomcat-6.0.51]# bin/startup.sh </span><br><span class="line">Using CATALINA_BASE:   /usr/tomcat/apache-tomcat-6.0.51</span><br><span class="line">Using CATALINA_HOME:   /usr/tomcat/apache-tomcat-6.0.51</span><br><span class="line">Using CATALINA_TMPDIR: /usr/tomcat/apache-tomcat-6.0.51/temp</span><br><span class="line">Using JRE_HOME:        /usr/java/jdk1.8.0_121</span><br><span class="line">Using CLASSPATH:       /usr/tomcat/apache-tomcat-6.0.51/bin/bootstrap.jar</span><br><span class="line"></span><br><span class="line">[root@iZ8vb5awc622gw7a274vsbZ apache-tomcat-6.0.51]# tail -f logs/catalina.out </span><br><span class="line">信息: Server startup in 5399 ms</span><br><span class="line"></span><br><span class="line">[root@iZ8vb5awc622gw7a274vsbZ apache-tomcat-6.0.51]# ps -ef | grep java</span><br><span class="line">root     10066     1 12 22:49 pts/0    00:00:07 /usr/java/jdk1.8.0_121/bin/java -Djava.util.logging.config.file=/usr/tomcat/apache-tomcat-6.0.51/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djdk.tls.ephemeralDHKeySize=2048 -Djava.endorsed.dirs=/usr/tomcat/apache-tomcat-6.0.51/endorsed -classpath /usr/tomcat/apache-tomcat-6.0.51/bin/bootstrap.jar -Dcatalina.base=/usr/tomcat/apache-tomcat-6.0.51 -Dcatalina.home=/usr/tomcat/apache-tomcat-6.0.51 -Djava.io.tmpdir=/usr/tomcat/apache-tomcat-6.0.51/temp org.apache.catalina.startup.Bootstrap start</span><br><span class="line">root     10151  9364  0 22:50 pts/0    00:00:00 grep java</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装jenkins</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ8vb5awc622gw7a274vsbZ jenkins]# scp jenkins.war  ../tomcat/apache-tomcat-6.0.51/webapps/</span><br><span class="line"></span><br><span class="line">[root@iZ8vb5awc622gw7a274vsbZ apache-tomcat-6.0.51]# bin/startup.sh </span><br><span class="line"></span><br><span class="line"># jenkins 初始密码地址：</span><br><span class="line">[root@iZ8vb5awc622gw7a274vsbZ jenkins]# vim ~/.jenkins/secrets/initialAdminPassword</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>jenkins中新建Item</p>
+<ul>
+<li>新建任务</li>
+<li>通过ssh的方式，添加git服务器路径。</li>
+<li><p>设置admin用户ssh <a href="mailto:git@127.0.0.1" target="_blank" rel="noopener">git@127.0.0.1</a>无密码：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[admin@iZ8vb5awc622gw7a274vsbZ ~]$ ssh-keygen</span><br><span class="line"></span><br><span class="line">[root@iZ8vb5awc622gw7a274vsbZ git]# cat /home/admin/.ssh/id_rsa.pub  &gt;&gt; /home/git/.ssh/authorized_keys </span><br><span class="line"></span><br><span class="line">[git@iZ8vb5awc622gw7a274vsbZ .ssh]$ chmod 600 authorized_keys </span><br><span class="line"></span><br><span class="line">[admin@iZ8vb5awc622gw7a274vsbZ ~]$ ssh git@127.0.0.1</span><br><span class="line">Last login: Tue Nov 21 22:59:58 2017 from 127.0.0.1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>点击jenkins开始构建</p>
+<ul>
+<li>从jenkins的本次构建log中确保本次构建可从git server成功clone项目<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ8vb5awc622gw7a274vsbZ ~]# ls ~/.jenkins/workspace/test.wangli.com</span><br><span class="line">default  default@tmp  README  test2.js</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>修改JENKINS_HOME</p>
+<ul>
+<li>因为jenkins默认安装到用户的home目录，可以根据需要修改到其他路径<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ8vb5awc622gw7a274vsbZ jenkins-workspace]# vim /etc/profile</span><br><span class="line">添加： export JENKINS_HOME=&apos;/var/tmp/jenkins-workspace&apos;</span><br><span class="line"></span><br><span class="line">[root@iZ8vb5awc622gw7a274vsbZ jenkins-workspace]# source /etc/profile</span><br><span class="line"></span><br><span class="line">[root@iZ8vb5awc622gw7a274vsbZ bin]# echo $JENKINS_HOME</span><br><span class="line">/var/tmp/jenkins-workspace</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="新建前端工程"><a href="#新建前端工程" class="headerlink" title="新建前端工程"></a>新建前端工程</h4><ul>
+<li><p>本地clone   </p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone  git@47.92.64.91:/var/tmp/wangli-workspace/test-project.git</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>搭建好前端测试工程，push到git server</p>
+</li>
+</ul>
+<h4 id="搭建npm私服"><a href="#搭建npm私服" class="headerlink" title="搭建npm私服"></a>搭建npm私服</h4><ul>
+<li><p>安装nrm</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ8vb5awc622gw7a274vsbZ ~]# npm install -g nrm</span><br><span class="line"></span><br><span class="line">[root@iZ8vb5awc622gw7a274vsbZ ~]# nrm  ls</span><br><span class="line">* npm ---- https://registry.npmjs.org/</span><br><span class="line">  cnpm --- http://r.cnpmjs.org/</span><br><span class="line">  taobao - https://registry.npm.taobao.org/</span><br><span class="line">  nj ----- https://registry.nodejitsu.com/</span><br><span class="line">  rednpm - http://registry.mirror.cqupt.edu.cn/</span><br><span class="line">  npmMirror  https://skimdb.npmjs.com/registry/</span><br><span class="line">  edunpm - http://registry.enpmjs.org/</span><br><span class="line">  </span><br><span class="line">[root@iZ8vb5awc622gw7a274vsbZ ~]# nrm test npm</span><br><span class="line"></span><br><span class="line">* npm ---- 3412ms</span><br><span class="line"></span><br><span class="line">[root@iZ8vb5awc622gw7a274vsbZ ~]# nrm test cnpm</span><br><span class="line"></span><br><span class="line">  cnpm --- 603ms</span><br><span class="line"></span><br><span class="line">[root@iZ8vb5awc622gw7a274vsbZ ~]# nrm test taobao</span><br><span class="line"></span><br><span class="line">  taobao - 214ms</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置私有npm </p>
+<ul>
+<li>简介<ul>
+<li>这里使用的是淘宝的cnpm, 可以从github上面clone安装。</li>
+</ul>
+</li>
+<li><p>启动MySQL数据库</p>
+<ul>
+<li>cnpm依赖数据库，这里选择的是mysql。安装完mysql之后需要启动服务，新建cnpmjs数据库，并导入cnpm安装包里的db.sql文件，创建依赖表。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-bash-4.1$ service mysqld start</span><br><span class="line">-bash-4.1$ mysql -u root -p</span><br><span class="line">mysql&gt; create database cnpmjs;</span><br><span class="line">mysql&gt; show databases;</span><br><span class="line">mysql&gt; source /usr/cnpm/cnpmjs.org/docs/db.sql;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>自定义cnpm配置文件 config/index.js</p>
+<ul>
+<li><p>配置1</p>
+<ul>
+<li>添加Mysql配置到database字段中</li>
+</ul>
+</li>
+<li><p>配置2</p>
+<ul>
+<li>7001表示npm源的端口号，7002表示web服务的端口号，bindingHost修改成自己的ip地址<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">registryPort: 7001,</span><br><span class="line">webPort: 7002,</span><br><span class="line">bindingHost: &apos;47.92.64.91&apos;,</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>启动服务：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ8vb5awc622gw7a274vsbZ cnpmjs.org]# node dispatch.js</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/baoendemao/Build-FrontEnd-System/master/images/cnpm-web.png" alt="image"></p>
+</li>
+<li><p>配置3</p>
+<ul>
+<li>为了方便命令行的操作，可以在~/.bashrc里添加命令别名：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mynpm：</span><br><span class="line">alias mynpm=&apos;cnpm --registry=http://47.92.64.91:7001 --cache=$HOME/.npm/.cache/mynpm --userconfig=/root/.mynpmrc&apos;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>配置4</p>
+<ul>
+<li><p>npm的config/index.js里改成自己的用户服务，<br>集成个性的定制化的用户服务mynpm adduser添加用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone  https://github.com/cnpm/npm-user-service</span><br><span class="line">var NpmUserService = require(&apos;./user-service/npm-user-service&apos;);</span><br><span class="line">var myUserService = new NpmUserService();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在config里修改字段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">userService: myUserService,</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>添加npm用户 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">cd  /var/tmp/jenkins-workspace/workspace/test-npm/test-dir/test-dir</span><br><span class="line">mynpm login ---scope=@test-company --always-auth</span><br><span class="line">mynpm install @test-company/test-npm  --save --no-cache</span><br><span class="line">mynpm cache clear --force</span><br><span class="line">mynpm adduser --scope=@test-company --always-auth</span><br><span class="line"></span><br><span class="line">[root@iZ8vb5awc622gw7a274vsbZ test-npm]# mynpm adduser </span><br><span class="line">Username: admin</span><br><span class="line">Password: </span><br><span class="line">Email: (this IS public) 312400021@qq.com</span><br><span class="line">Logged in as admin on http://47.92.64.91:7001/.</span><br><span class="line"></span><br><span class="line">[root@iZ8vb5awc622gw7a274vsbZ test-npm]# mynpm login</span><br><span class="line">Username: (admin) </span><br><span class="line">Password: (&lt;default hidden&gt;) </span><br><span class="line">Email: (this IS public) (312400021@qq.com) </span><br><span class="line">Logged in as admin on http://47.92.64.91:7001/.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>publish工程Build好的包到搭建的npm</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ8vb5awc622gw7a274vsbZ test-npm]# mynpm publish</span><br><span class="line">+ @test-company/test-npm@1.0.0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>从搭建的npm中install package</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ8vb5awc622gw7a274vsbZ test-dir]# mynpm install @test-company/test-npm</span><br><span class="line">npm notice created a lockfile as package-lock.json. You should commit this file.</span><br><span class="line">npm WARN test-dir@1.0.0 No description</span><br><span class="line">npm WARN test-dir@1.0.0 No repository field.</span><br><span class="line"></span><br><span class="line">+ @test-company/test-npm@1.0.2</span><br><span class="line">added 1 package in 2.519s</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试新搭建的npm源的响应时间</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ8vb5awc622gw7a274vsbZ ~]# nrm add mynpm http://47.92.64.91:7001</span><br><span class="line"></span><br><span class="line">    add registry mynpm success</span><br><span class="line"></span><br><span class="line">[root@iZ8vb5awc622gw7a274vsbZ ~]# nrm ls</span><br><span class="line"></span><br><span class="line">* npm ---- https://registry.npmjs.org/</span><br><span class="line">  cnpm --- http://r.cnpmjs.org/</span><br><span class="line">  taobao - https://registry.npm.taobao.org/</span><br><span class="line">  nj ----- https://registry.nodejitsu.com/</span><br><span class="line">  rednpm - http://registry.mirror.cqupt.edu.cn/</span><br><span class="line">  npmMirror  https://skimdb.npmjs.com/registry/</span><br><span class="line">  edunpm - http://registry.enpmjs.org/</span><br><span class="line">  mynpm -- http://47.92.64.91:7001/</span><br><span class="line">  </span><br><span class="line"># 明显看到新建的npm源的速度是最高的</span><br><span class="line">[root@iZ8vb5awc622gw7a274vsbZ ~]# nrm test mynpm</span><br><span class="line"></span><br><span class="line">  mynpm -- 43ms</span><br><span class="line"></span><br><span class="line">[root@iZ8vb5awc622gw7a274vsbZ ~]# nrm test npm</span><br><span class="line"></span><br><span class="line">* npm ---- 917ms</span><br><span class="line"></span><br><span class="line">[root@iZ8vb5awc622gw7a274vsbZ ~]# nrm test cnpm</span><br><span class="line"></span><br><span class="line">  cnpm --- 297ms</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="部署脚本"><a href="#部署脚本" class="headerlink" title="部署脚本"></a>部署脚本</h4><ul>
+<li>部署脚本写好后，放在jenkins新建shell执行过程中。它的主要工作：build项目，打包后上传到私有npm  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">root@iZ8vb5awc622gw7a274vsbZ:/var/tmp/jenkins-workspace/workspace# cat deploy.sh</span><br><span class="line">#set -x</span><br><span class="line">typeset packagePath=&apos;/var/tmp/jenkins-workspace/workspace/npm-workspace/&apos;</span><br><span class="line">typeset projectPath=&apos;/var/tmp/jenkins-workspace/workspace/test.wangli.com&apos;</span><br><span class="line"></span><br><span class="line">export PATH=/usr/local/bin:$PATH</span><br><span class="line">rm -rf $packagePath&apos;project.tar.gz&apos;</span><br><span class="line">cd $projectPath</span><br><span class="line">npm run build</span><br><span class="line">tar -czf $packagePath&apos;project.tar.gz&apos;  ./* --exclude ./node_modules</span><br><span class="line"></span><br><span class="line">cd $packagePath</span><br><span class="line">typeset old=$(cat package.json | awk -F&apos;&quot;&apos; /version/&apos;&#123;print $4&#125;&apos;)</span><br><span class="line">typeset new=$(echo $old | awk -F&apos;.&apos; &apos;&#123;v=$3;v=v+1;print $1&quot;.&quot;$2&quot;.&quot;v&#125;&apos;)</span><br><span class="line">sed -i &quot;/version/s/$old/$new/&quot; package.json</span><br><span class="line"></span><br><span class="line">echo &quot;The old version in package.json is $old&quot;</span><br><span class="line">echo &quot;The new version in package.json is $new&quot;</span><br><span class="line"></span><br><span class="line">cnpm --registry=http://47.92.64.91:7001 --cache=$HOME/.npm/.cache/mynpm --userconfig=/root/.mynpmrc   publish</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="执行脚本"><a href="#执行脚本" class="headerlink" title="执行脚本"></a>执行脚本</h4><ul>
+<li>执行脚本写好后，放在jenkins新建shell执行过程中。它的主要工作：从私有npm上将项目包install下来到项目工程目录，pm2启动node进程。  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">root@iZ8vb5awc622gw7a274vsbZ:/var/tmp/jenkins-workspace/workspace# cat execute.sh</span><br><span class="line">#set -x</span><br><span class="line">typeset path=&apos;/var/tmp/jenkins-workspace/workspace/deploy-workspace&apos;</span><br><span class="line">typeset deployPath=$path&apos;/project&apos;</span><br><span class="line">typeset downloadPath=$path&apos;/mynpm-download&apos;</span><br><span class="line">typeset packagePath=$downloadPath&apos;/node_modules/@test-company/test.wangli.com/project.tar.gz&apos;</span><br><span class="line"></span><br><span class="line">export PATH=/usr/local/bin:$PATH</span><br><span class="line"></span><br><span class="line">rm -rf `ls $deployPath | grep -v node_modules`</span><br><span class="line">rm -rf `ls $downloadPath | grep -v package*`</span><br><span class="line">cd $downloadPath</span><br><span class="line">cnpm --registry=http://47.92.64.91:7001 --cache=$HOME/.npm/.cache/mynpm --userconfig=/root/.mynpmrc install @test-company/test.wangli.com@latest</span><br><span class="line">tar -zvxf $packagePath -C $deployPath &gt;/dev/null</span><br><span class="line"></span><br><span class="line">pm2 status | awk &apos;/online/&#123;print $2&#125;&apos; | grep server</span><br><span class="line">if [[ $? == 0 ]];then</span><br><span class="line">  pm2 reload server</span><br><span class="line">else</span><br><span class="line">  pm2 start $deployPath&apos;/server.js&apos;</span><br><span class="line">fi</span><br><span class="line">pm2 list</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="系统环境测试"><a href="#系统环境测试" class="headerlink" title="系统环境测试"></a>系统环境测试</h4><ul>
+<li>通过jenkins构建项目，部署到线上，浏览器访问ip:端口号，测试是否成功运行前端工程。</li>
+</ul>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/03/14/如何在Linux上搭建前端系统工程-Edit/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/14/hello-world/" class="archive-article-date">
-  	<time datetime="2018-03-14T14:09:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-14</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/03/14/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Hello World</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/14/hello-world/">Hello World</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
+
+  
 
 
           </div>
@@ -241,8 +539,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
